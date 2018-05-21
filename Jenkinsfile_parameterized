@@ -1,0 +1,12 @@
+#!groovy
+//noinspection GroovyUnusedAssignment
+@Library("Infrastructure") _
+
+//noinspection GroovyAssignabilityCheck
+properties([
+		parameters([
+			choice(name: 'ENVIRONMENT', choices: 'saat\nsprod', description: 'Environment where code should be build and deployed')
+		])
+])
+
+sharedInfrastructurePipeline('div', params.ENVIRONMENT, 'sandbox')
