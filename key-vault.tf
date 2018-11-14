@@ -6,7 +6,7 @@ module "div-vault" {
   tenant_id = "${var.tenant_id}"
   object_id = "${var.jenkins_AAD_objectId}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
-  product_group_object_id = "1c4f0704-a29e-403d-b719-b90c34ef14c9"
+  product_group_object_id = "3450807e-5248-4053-944f-9df59dda50b9"
 }
 
 output "vaultName" {
