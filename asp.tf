@@ -1,6 +1,6 @@
 locals {
     ase_name = "core-compute-${var.env}"
-    tags = "${merge(
+    asp_tags = "${merge(
         var.common_tags,
         map("Team Contact", var.team_contact)
     )}"
@@ -13,5 +13,5 @@ module "appServicePlan" {
     asp_capacity = "${var.asp_capacity}"
     asp_name = "${var.product}"
     ase_name = "${local.ase_name}"
-    tag_list = "${local.tags}"
+    tag_list = "${local.asp_tags}"
 }
