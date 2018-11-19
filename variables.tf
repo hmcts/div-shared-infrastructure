@@ -58,16 +58,6 @@ variable "destroy_me" {
   default     = "No"
 }
 
-variable "local_tags" {
-  type = "map"
-  default = {
-    "Deployment Environment" = var.env
-    "Team Name" = var.team_name
-    "Team Contact" = var.team_contact
-    "Destroy Me" = var.destroy_me
-  }
-}
-
 variable "common_tags" {
   type = "map"
 }
