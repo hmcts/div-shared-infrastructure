@@ -1,7 +1,10 @@
 locals {
   ai_tags = "${merge(
         var.common_tags,
-        map("Team Contact", var.team_contact)
+        map("Deployment Environment", var.env),
+        map("Team Name", var.team_name),
+        map("Team Contact", var.team_contact),
+        map("Destroy Me", var.destroy_me)
     )}"
 }
 
