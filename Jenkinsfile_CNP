@@ -13,6 +13,9 @@ onMaster {
   sharedInfrastructurePipeline('div', environment.nonProdName, 'nonprod')
   //sharedInfrastructurePipeline('div', environment.prodName, 'prod')
 }*/
+
+def product = 'div'
+
 onMaster {
   sharedInfrastructurePipeline(product, environment.nonProdName, subscription.nonProdName)
   sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
@@ -20,5 +23,5 @@ onMaster {
 }
 
 onDemo {
-  sharedInfrastructurePipeline('div', environment.demoName, 'nonprod')
+  sharedInfrastructurePipeline(product, environment.demoName, 'nonprod')
 }
