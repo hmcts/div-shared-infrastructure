@@ -1,5 +1,5 @@
 variable "product" {
-  type = "string"
+  type    = "string"
   default = "div"
 }
 
@@ -32,3 +32,11 @@ variable "tenant_id" {
 variable "jenkins_AAD_objectId" {
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
+
+variable "external_cert_vault_uri" {}
+
+variable "external_cert_name" {}
+
+variable "external_hostname" {}
+
+variable "ilbIp" {}
