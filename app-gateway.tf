@@ -40,7 +40,7 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
-      name                    = "https-listener"
+      name                    = "https-listener1"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
@@ -48,7 +48,7 @@ module "appGw" {
       hostName                = "${var.aos_external_hostname}"
     },
     {
-      name                    = "https-listener"
+      name                    = "https-listener2"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
@@ -68,7 +68,7 @@ module "appGw" {
 
   backendHttpSettingsCollection = [
     {
-      name                           = "backend"
+      name                           = "backend1"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
@@ -79,7 +79,7 @@ module "appGw" {
       Host                           = "${var.aos_external_hostname}"
     },
     {
-      name                           = "backend"
+      name                           = "backend2"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
@@ -104,7 +104,7 @@ module "appGw" {
 
   probes = [
     {
-      name                                = "http-probe"
+      name                                = "http-probe1"
       protocol                            = "Http"
       path                                = "/"
       interval                            = 30
@@ -116,7 +116,7 @@ module "appGw" {
       healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
     },
     {
-      name                                = "http-probe"
+      name                                = "http-probe2"
       protocol                            = "Http"
       path                                = "/"
       interval                            = 30
