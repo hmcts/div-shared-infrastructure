@@ -1,11 +1,11 @@
 data "azurerm_key_vault_secret" "aos_cert" {
   name      = "${var.aos_external_cert_name}"
-  vault_uri = "${var.aos_external_cert_vault_uri}"
+  vault_uri = "${var.external_cert_vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "dn_cert" {
   name      = "${var.dn_external_cert_name}"
-  vault_uri = "${var.dn_external_cert_vault_uri}"
+  vault_uri = "${var.external_cert_vault_uri}"
 }
 
 module "appGw" {
