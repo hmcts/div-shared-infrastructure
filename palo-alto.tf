@@ -19,5 +19,5 @@ module "palo_alto" {
   trusted_vnet_subnet_name      = "${local.trusted_vnet_subnet_name}"
 
   //trusted_destination_host      = "${azurerm_storage_account.storage_account.name}.blob.core.windows.net"
-  trusted_destination_Ip = "${var.ilbIp}"
+  trusted_destination_ip = "${var.ilbIp}"
 }
