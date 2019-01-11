@@ -40,7 +40,7 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
-      name                    = "https-listener1"
+      name                    = "https-listener"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
