@@ -30,6 +30,11 @@ module "appGw" {
       data     = "${data.azurerm_key_vault_secret.aos_cert.value}"
       password = ""
     },
+    {
+      name     = "${var.dn_external_cert_name}"
+      data     = "${data.azurerm_key_vault_secret.dn_cert.value}"
+      password = ""
+    },
   ]
 
   # Http Listeners
@@ -41,6 +46,14 @@ module "appGw" {
       Protocol                = "Https"
       SslCertificate          = "${var.aos_external_cert_name}"
       hostName                = "${var.aos_external_hostname}"
+    },
+    {
+      name                    = "https-listener"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort443"
+      Protocol                = "Https"
+      SslCertificate          = "${var.dn_external_cert_name}"
+      hostName                = "${var.dn_external_hostname}"
     },
   ]
 
@@ -63,7 +76,18 @@ module "appGw" {
       probeEnabled                   = "True"
       probe                          = "http-probe"
       PickHostNameFromBackendAddress = "False"
-      Host                           = "${var.external_hostname}"
+      Host                           = "${var.aos_external_hostname}"
+    },
+    {
+      name                           = "backend"
+      port                           = 80
+      Protocol                       = "Http"
+      AuthenticationCertificates     = ""
+      CookieBasedAffinity            = "Disabled"
+      probeEnabled                   = "True"
+      probe                          = "http-probe"
+      PickHostNameFromBackendAddress = "False"
+      Host                           = "${var.dn_external_hostname}"
     },
   ]
 
@@ -90,6 +114,18 @@ module "appGw" {
       backendHttpSettings                 = "backend"
       host                                = "${var.aos_external_hostname}"
       healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
+    },
+    {
+      name                                = "http-probe"
+      protocol                            = "Http"
+      path                                = "/"
+      interval                            = 30
+      timeout                             = 30
+      unhealthyThreshold                  = 5
+      pickHostNameFromBackendHttpSettings = "false"
+      backendHttpSettings                 = "backend"
+      host                                = "${var.dn_external_hostname}"
+      healthyStatusCodes                  = "200-404"                     // MS returns 400 on /, allowing more codes in case they change it
     },
   ]
 }
