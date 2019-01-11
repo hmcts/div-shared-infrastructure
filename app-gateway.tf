@@ -1,6 +1,11 @@
-data "azurerm_key_vault_secret" "cert" {
-  name      = "${var.external_cert_name}"
-  vault_uri = "${var.external_cert_vault_uri}"
+data "azurerm_key_vault_secret" "aos_cert" {
+  name      = "${var.aos_external_cert_name}"
+  vault_uri = "${var.aos_external_cert_vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "dn_cert" {
+  name      = "${var.dn_external_cert_name}"
+  vault_uri = "${var.dn_external_cert_vault_uri}"
 }
 
 module "appGw" {
@@ -21,8 +26,8 @@ module "appGw" {
 
   sslCertificates = [
     {
-      name     = "${var.external_cert_name}"
-      data     = "${data.azurerm_key_vault_secret.cert.value}"
+      name     = "${var.aos_external_cert_name}"
+      data     = "${data.azurerm_key_vault_secret.aos_cert.value}"
       password = ""
     },
   ]
@@ -34,8 +39,8 @@ module "appGw" {
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
-      SslCertificate          = "${var.external_cert_name}"
-      hostName                = "${var.external_hostname}"
+      SslCertificate          = "${var.aos_external_cert_name}"
+      hostName                = "${var.aos_external_hostname}"
     },
   ]
 
@@ -83,8 +88,8 @@ module "appGw" {
       unhealthyThreshold                  = 5
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend"
-      host                                = "${var.external_hostname}"
-      healthyStatusCodes                  = "200-404"                  // MS returns 400 on /, allowing more codes in case they change it
+      host                                = "${var.aos_external_hostname}"
+      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
     },
   ]
 }
