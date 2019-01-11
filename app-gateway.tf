@@ -66,31 +66,47 @@ module "appGw" {
     },
   ]
 
+  /*
   backendHttpSettingsCollection = [
     {
-      name                           = "backend1"
+      name                           = "backend"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
-      probe                          = "http-probe"
+      probe                          = "http-probe1"
       PickHostNameFromBackendAddress = "False"
       Host                           = "${var.aos_external_hostname}"
     },
     {
-      name                           = "backend2"
+      name                           = "backend"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
-      probe                          = "http-probe"
+      probe                          = "http-probe2"
       PickHostNameFromBackendAddress = "False"
       Host                           = "${var.dn_external_hostname}"
     },
   ]
 
+  */
+
+  backendHttpSettingsCollection = [
+    {
+      name                           = "backend"
+      port                           = 80
+      Protocol                       = "Http"
+      AuthenticationCertificates     = ""
+      CookieBasedAffinity            = "Disabled"
+      probeEnabled                   = "True"
+      probe                          = "http-probe1"
+      PickHostNameFromBackendAddress = "False"
+      Host                           = "${var.aos_external_hostname}"
+    },
+  ]
   # Request routing rules
   requestRoutingRules = [
     {
@@ -101,7 +117,6 @@ module "appGw" {
       backendHttpSettings = "backend"
     },
   ]
-
   probes = [
     {
       name                                = "http-probe1"
