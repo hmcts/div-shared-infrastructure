@@ -82,7 +82,7 @@ module "appGw" {
     },
     {
       name             = "${var.product}-${var.env}-backend-pool"
-      backendAddresses = "${var.ilbIp}"
+      backendAddresses = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
     },
   ]
 
