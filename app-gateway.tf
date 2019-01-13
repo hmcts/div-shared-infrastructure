@@ -157,7 +157,7 @@ module "appGw" {
       backendHttpSettings = "backend-443-ilb"
     },
     {
-      name                = "http-ilb"
+      name                = "https-ilb"
       ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-ilb"
       backendAddressPool  = "${var.product}-${var.env}-backend-pool"
