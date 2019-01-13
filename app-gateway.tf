@@ -81,8 +81,13 @@ module "appGw" {
       backendAddresses = "${module.palo_alto.untrusted_ips_fqdn}"
     },
     {
-      name             = "${var.product}-${var.env}-backend-pool"
-      backendAddresses = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
+      name = "${var.product}-${var.env}-backend-pool"
+
+      backendAddresses = [
+        {
+          ipAddress = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
+        },
+      ]
     },
   ]
 
