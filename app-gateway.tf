@@ -144,29 +144,29 @@ module "appGw" {
       name                = "http-palo"
       ruleType            = "Basic"
       httpListener        = "${var.product}-http-listener-palo"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendAddressPool  = "${var.product}-${var.env}-backend-palo"
       backendHttpSettings = "backend-80-palo"
     },
     {
       name                = "https-palo"
       ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-palo"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendAddressPool  = "${var.product}-${var.env}-backend-palo"
       backendHttpSettings = "backend-443-palo"
     },
     {
       name                = "http-ilb"
       ruleType            = "Basic"
-      httpListener        = "${var.product}-https-listener-ilb"
+      httpListener        = "${var.product}-http-listener-ilb"
       backendAddressPool  = "${var.product}-${var.env}-backend-pool"
-      backendHttpSettings = "backend-443-ilb"
+      backendHttpSettings = "backend-80-ilb"
     },
     {
       name                = "https-ilb"
       ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-ilb"
       backendAddressPool  = "${var.product}-${var.env}-backend-pool"
-      backendHttpSettings = "backend-80-ilb"
+      backendHttpSettings = "backend-443-ilb"
     },
   ]
 
