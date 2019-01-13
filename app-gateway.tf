@@ -40,7 +40,15 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
-      name                    = "https-listener"
+      name                    = "${var.product}-http-listener-ilb"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.aos_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-https-listener-ilb"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
@@ -48,7 +56,15 @@ module "appGw" {
       hostName                = "${var.aos_external_hostname}"
     },
     {
-      name                    = "https-listener2"
+      name                    = "${var.product}-http-listener-palo"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.dn_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-https-listener-palo"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
@@ -60,87 +76,143 @@ module "appGw" {
   # Backend address Pools
   backendAddressPools = [
     {
-      name = "${var.product}-${var.env}"
+      name = "${var.product}-${var.env}-backend-palo"
 
       backendAddresses = "${module.palo_alto.untrusted_ips_fqdn}"
     },
+    {
+      name             = "${var.product}-${var.env}-backend-pool"
+      backendAddresses = "${var.ilb}"
+    },
   ]
 
-  /*
   backendHttpSettingsCollection = [
     {
-      name                           = "backend"
+      name                           = "backend-80-palo"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
-      probe                          = "http-probe1"
-      PickHostNameFromBackendAddress = "False"
-      Host                           = "${var.aos_external_hostname}"
-    },
-    {
-      name                           = "backend"
-      port                           = 80
-      Protocol                       = "Http"
-      AuthenticationCertificates     = ""
-      CookieBasedAffinity            = "Disabled"
-      probeEnabled                   = "True"
-      probe                          = "http-probe2"
+      probe                          = "http-probe-palo"
       PickHostNameFromBackendAddress = "False"
       Host                           = "${var.dn_external_hostname}"
     },
-  ]
-
-  */
-
-  backendHttpSettingsCollection = [
     {
-      name                           = "backend"
+      name                           = "backend-443-palo"
+      port                           = 443
+      Protocol                       = "Https"
+      AuthenticationCertificates     = "ilbCert"
+      CookieBasedAffinity            = "Disabled"
+      probeEnabled                   = "True"
+      probe                          = "https-probe-palo"
+      PickHostNameFromBackendAddress = "False"
+      Host                           = "${var.dn_external_hostname}"
+    },
+    {
+      name                           = "backend-80-ilb"
       port                           = 80
       Protocol                       = "Http"
       AuthenticationCertificates     = ""
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
-      probe                          = "http-probe1"
+      probe                          = "http-probe-ilb"
+      PickHostNameFromBackendAddress = "False"
+      Host                           = "${var.aos_external_hostname}"
+    },
+    {
+      name                           = "backend-443-ilb"
+      port                           = 443
+      Protocol                       = "Https"
+      AuthenticationCertificates     = "ilbCert"
+      CookieBasedAffinity            = "Disabled"
+      probeEnabled                   = "True"
+      probe                          = "https-probe-ilb"
       PickHostNameFromBackendAddress = "False"
       Host                           = "${var.aos_external_hostname}"
     },
   ]
+
   # Request routing rules
   requestRoutingRules = [
     {
-      name                = "https"
-      RuleType            = "Basic"
-      httpListener        = "https-listener"
-      backendAddressPool  = "${var.product}-${var.env}"
-      backendHttpSettings = "backend"
+      name                = "http-palo"
+      ruleType            = "Basic"
+      httpListener        = "${var.product}-http-listener-palo"
+      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendHttpSettings = "backend-80-palo"
+    },
+    {
+      name                = "https-backend"
+      ruleType            = "Basic"
+      httpListener        = "${var.product}-http-listener-palo"
+      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendHttpSettings = "backend-443-palo"
+    },
+    {
+      name                = "http-ilb"
+      ruleType            = "Basic"
+      httpListener        = "${var.product}-https-listener-ilb"
+      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendHttpSettings = "backend-443-ilb"
+    },
+    {
+      name                = "http-ilb"
+      ruleType            = "Basic"
+      httpListener        = "${var.product}-https-listener-ilb"
+      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendHttpSettings = "backend-80-ilb"
     },
   ]
+
   probes = [
     {
-      name                                = "http-probe1"
+      name                                = "http-probe-palo"
       protocol                            = "Http"
       path                                = "/"
       interval                            = 30
       timeout                             = 30
       unhealthyThreshold                  = 5
       pickHostNameFromBackendHttpSettings = "false"
-      backendHttpSettings                 = "backend"
+      backendHttpSettings                 = "backend-80-palo"
       host                                = "${var.aos_external_hostname}"
       healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
     },
     {
-      name                                = "http-probe2"
+      name                                = "https-probe-palo"
+      protocol                            = "Https"
+      path                                = "/"
+      interval                            = 30
+      timeout                             = 30
+      unhealthyThreshold                  = 5
+      pickHostNameFromBackendHttpSettings = "false"
+      backendHttpSettings                 = "backend-443-palo"
+      host                                = "${var.dn_external_hostname}"
+      healthyStatusCodes                  = "200-404"                     // MS returns 400 on /, allowing more codes in case they change it
+    },
+    {
+      name                                = "backend-80-ilb"
       protocol                            = "Http"
       path                                = "/"
       interval                            = 30
       timeout                             = 30
       unhealthyThreshold                  = 5
       pickHostNameFromBackendHttpSettings = "false"
-      backendHttpSettings                 = "backend"
-      host                                = "${var.dn_external_hostname}"
-      healthyStatusCodes                  = "200-404"                     // MS returns 400 on /, allowing more codes in case they change it
+      backendHttpSettings                 = "backend-80-ilb"
+      host                                = "${var.aos_external_hostname}"
+      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
+    },
+    {
+      name                                = "https-probe-ilb"
+      protocol                            = "Https"
+      path                                = "/"
+      interval                            = 30
+      timeout                             = 30
+      unhealthyThreshold                  = 5
+      pickHostNameFromBackendHttpSettings = "false"
+      backendHttpSettings                 = "backend-443-ilb"
+      host                                = "${var.aos_external_hostname}"
+      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
     },
   ]
 }
