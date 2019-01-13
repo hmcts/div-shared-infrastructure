@@ -148,9 +148,9 @@ module "appGw" {
       backendHttpSettings = "backend-80-palo"
     },
     {
-      name                = "https-backend"
+      name                = "https-palo"
       ruleType            = "Basic"
-      httpListener        = "${var.product}-http-listener-palo"
+      httpListener        = "${var.product}-https-listener-palo"
       backendAddressPool  = "${var.product}-${var.env}-backend-pool"
       backendHttpSettings = "backend-443-palo"
     },
