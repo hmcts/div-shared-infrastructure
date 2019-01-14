@@ -8,6 +8,11 @@ data "azurerm_key_vault_secret" "dn_cert" {
   vault_uri = "${var.external_cert_vault_uri}"
 }
 
+locals {
+  dn_suffix  = "${var.env != "prod" ? "-dn" : ""}"
+  aos_suffix = "${var.env != "prod" ? "-aos" : ""}"
+}
+
 module "appGw" {
   source            = "git@github.com:hmcts/cnp-module-waf?ref=master"
   env               = "${var.env}"
@@ -27,12 +32,12 @@ module "appGw" {
 
   sslCertificates = [
     {
-      name     = "${var.aos_external_cert_name}"
+      name     = "${var.aos_external_cert_name}${local.aos_suffix}"
       data     = "${data.azurerm_key_vault_secret.aos_cert.value}"
       password = ""
     },
     {
-      name     = "${var.dn_external_cert_name}"
+      name     = "${var.dn_external_cert_name}${local.dn_suffix}"
       data     = "${data.azurerm_key_vault_secret.dn_cert.value}"
       password = ""
     },
@@ -53,7 +58,7 @@ module "appGw" {
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
-      SslCertificate          = "${var.aos_external_cert_name}"
+      SslCertificate          = "${var.aos_external_cert_name}${local.aos_suffix}"
       hostName                = "${var.aos_external_hostname}"
     },
     {
@@ -69,7 +74,7 @@ module "appGw" {
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
       Protocol                = "Https"
-      SslCertificate          = "${var.dn_external_cert_name}"
+      SslCertificate          = "${var.dn_external_cert_name}${local.dn_suffix}"
       hostName                = "${var.dn_external_hostname}"
     },
   ]
