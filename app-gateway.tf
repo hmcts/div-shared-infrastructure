@@ -162,7 +162,7 @@ module "appGw" {
       unhealthyThreshold                  = 5
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend-80-palo"
-      host                                = "${var.dn_internal_hostname}"
+      host                                = "${local.dn_internal_hostname}"
       healthyStatusCodes                  = "200"
     },
     {
