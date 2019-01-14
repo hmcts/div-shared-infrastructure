@@ -62,14 +62,6 @@ module "appGw" {
       hostName                = "${var.aos_external_hostname}"
     },
     {
-      name                    = "${var.product}-http-listener-palo"
-      FrontendIPConfiguration = "appGatewayFrontendIP"
-      FrontendPort            = "frontendPort80"
-      Protocol                = "Http"
-      SslCertificate          = ""
-      hostName                = "${var.dn_external_hostname}"
-    },
-    {
       name                    = "${var.product}-https-listener-palo"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
@@ -138,7 +130,7 @@ module "appGw" {
     {
       name                = "http-palo"
       ruleType            = "Basic"
-      httpListener        = "${var.product}-http-listener-palo"
+      httpListener        = "${var.product}-https-listener-palo"
       backendAddressPool  = "${var.product}-${var.env}-backend-palo"
       backendHttpSettings = "backend-80-palo"
     },
