@@ -84,7 +84,7 @@ module "appGw" {
 
       backendAddresses = [
         {
-          ipAddress = "${local.rpe_internal_hostname}"
+          ipAddress = "${local.rfe_internal_hostname}"
         },
       ]
     },
