@@ -12,7 +12,8 @@ locals {
   dn_suffix  = "${var.env != "prod" ? "-dn" : ""}"
   aos_suffix = "${var.env != "prod" ? "-aos" : ""}"
 
-  dn_internal_hostname = "div-dn-${var.env}.service.core-compute-${var.env}.internal"
+  dn_internal_hostname  = "${var.product}-dn-${var.env}.service.core-compute-${var.env}.internal"
+  rfe_internal_hostname = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
 }
 
 module "appGw" {
@@ -83,7 +84,7 @@ module "appGw" {
 
       backendAddresses = [
         {
-          ipAddress = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
+          ipAddress = "${local.rpe_internal_hostname}"
         },
       ]
     },
@@ -154,37 +155,37 @@ module "appGw" {
 
   probes = [
     {
-      name                                = "http-probe-palo"
-      protocol                            = "Http"
-      path                                = "/"
-      interval                            = 30
-      timeout                             = 30
-      unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "false"
-      backendHttpSettings                 = "backend-80-palo"
-      healthyStatusCodes                  = "200"
+      name                = "http-probe-palo"
+      protocol            = "Http"
+      path                = "/"
+      interval            = 30
+      timeout             = 30
+      unhealthyThreshold  = 5
+      backendHttpSettings = "backend-80-palo"
+      healthyStatusCodes  = "200"
+      host                = "${local.dn_internal_hostname}"
     },
     {
-      name                                = "http-probe-ilb"
-      protocol                            = "Http"
-      path                                = "/"
-      interval                            = 30
-      timeout                             = 30
-      unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "true"
-      backendHttpSettings                 = "backend-80-ilb"
-      healthyStatusCodes                  = "200"
+      name                = "http-probe-ilb"
+      protocol            = "Http"
+      path                = "/"
+      interval            = 30
+      timeout             = 30
+      unhealthyThreshold  = 5
+      backendHttpSettings = "backend-80-ilb"
+      healthyStatusCodes  = "200"
+      host                = "${local.rfe_internal_hostname}"
     },
     {
-      name                                = "https-probe-ilb"
-      protocol                            = "Https"
-      path                                = "/"
-      interval                            = 30
-      timeout                             = 30
-      unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "true"
-      backendHttpSettings                 = "backend-443-ilb"
-      healthyStatusCodes                  = "200"
+      name                = "https-probe-ilb"
+      protocol            = "Https"
+      path                = "/"
+      interval            = 30
+      timeout             = 30
+      unhealthyThreshold  = 5
+      backendHttpSettings = "backend-443-ilb"
+      healthyStatusCodes  = "200"
+      host                = "${local.rfe_internal_hostname}"
     },
   ]
 }
