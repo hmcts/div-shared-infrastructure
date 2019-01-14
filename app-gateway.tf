@@ -196,7 +196,7 @@ module "appGw" {
       healthyStatusCodes                  = "200-404"                     // MS returns 400 on /, allowing more codes in case they change it
     },
     {
-      name                                = "backend-80-ilb"
+      name                                = "http-probe-ilb"
       protocol                            = "Http"
       path                                = "/"
       interval                            = 30
