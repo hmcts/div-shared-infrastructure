@@ -9,12 +9,13 @@ data "azurerm_key_vault_secret" "dn_cert" {
 }
 
 module "appGw" {
-  source            = "git@github.com:hmcts/cnp-module-waf?ref=stripDownWf"
+  source            = "git@github.com:hmcts/cnp-module-waf?ref=master"
   env               = "${var.env}"
   subscription      = "${var.subscription}"
   location          = "${var.location}"
   wafName           = "${var.product}"
   resourcegroupname = "${azurerm_resource_group.rg.name}"
+  common_tags       = "${var.common_tags}"
 
   # vNet connections
   gatewayIpConfigurations = [
@@ -73,15 +74,13 @@ module "appGw" {
     },
   ]
 
-  # Backend address Pools
   backendAddressPools = [
     {
-      name = "${var.product}-${var.env}-backend-palo"
-
+      name             = "${var.product}-${var.env}-backend-palo"
       backendAddresses = "${module.palo_alto.untrusted_ips_fqdn}"
     },
     {
-      name = "${var.product}-${var.env}-backend-pool"
+      name = "${var.product}-${var.env}-backend-ilb"
 
       backendAddresses = [
         {
@@ -104,17 +103,6 @@ module "appGw" {
       Host                           = "${var.dn_external_hostname}"
     },
     {
-      name                           = "backend-443-palo"
-      port                           = 443
-      Protocol                       = "Https"
-      AuthenticationCertificates     = "ilbCert"
-      CookieBasedAffinity            = "Disabled"
-      probeEnabled                   = "True"
-      probe                          = "https-probe-palo"
-      PickHostNameFromBackendAddress = "False"
-      Host                           = "${var.dn_external_hostname}"
-    },
-    {
       name                           = "backend-80-ilb"
       port                           = 80
       Protocol                       = "Http"
@@ -122,7 +110,7 @@ module "appGw" {
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
       probe                          = "http-probe-ilb"
-      PickHostNameFromBackendAddress = "False"
+      PickHostNameFromBackendAddress = "True"
       Host                           = "${var.aos_external_hostname}"
     },
     {
@@ -133,7 +121,7 @@ module "appGw" {
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
       probe                          = "https-probe-ilb"
-      PickHostNameFromBackendAddress = "False"
+      PickHostNameFromBackendAddress = "True"
       Host                           = "${var.aos_external_hostname}"
     },
   ]
@@ -148,24 +136,17 @@ module "appGw" {
       backendHttpSettings = "backend-80-palo"
     },
     {
-      name                = "https-palo"
-      ruleType            = "Basic"
-      httpListener        = "${var.product}-https-listener-palo"
-      backendAddressPool  = "${var.product}-${var.env}-backend-palo"
-      backendHttpSettings = "backend-443-palo"
-    },
-    {
       name                = "http-ilb"
       ruleType            = "Basic"
       httpListener        = "${var.product}-http-listener-ilb"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendAddressPool  = "${var.product}-${var.env}-backend-ilb"
       backendHttpSettings = "backend-80-ilb"
     },
     {
       name                = "https-ilb"
       ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-ilb"
-      backendAddressPool  = "${var.product}-${var.env}-backend-pool"
+      backendAddressPool  = "${var.product}-${var.env}-backend-ilb"
       backendHttpSettings = "backend-443-ilb"
     },
   ]
@@ -181,19 +162,7 @@ module "appGw" {
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend-80-palo"
       host                                = "${var.aos_external_hostname}"
-      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
-    },
-    {
-      name                                = "https-probe-palo"
-      protocol                            = "Https"
-      path                                = "/"
-      interval                            = 30
-      timeout                             = 30
-      unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "false"
-      backendHttpSettings                 = "backend-443-palo"
-      host                                = "${var.dn_external_hostname}"
-      healthyStatusCodes                  = "200-404"                     // MS returns 400 on /, allowing more codes in case they change it
+      healthyStatusCodes                  = "200"
     },
     {
       name                                = "http-probe-ilb"
@@ -205,7 +174,7 @@ module "appGw" {
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend-80-ilb"
       host                                = "${var.aos_external_hostname}"
-      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
+      healthyStatusCodes                  = "200"
     },
     {
       name                                = "https-probe-ilb"
@@ -217,7 +186,7 @@ module "appGw" {
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend-443-ilb"
       host                                = "${var.aos_external_hostname}"
-      healthyStatusCodes                  = "200-404"                      // MS returns 400 on /, allowing more codes in case they change it
+      healthyStatusCodes                  = "200"
     },
   ]
 }
