@@ -157,7 +157,7 @@ module "appGw" {
     {
       name                = "http-probe-palo"
       protocol            = "Http"
-      path                = "/"
+      path                = "/health"
       interval            = 30
       timeout             = 30
       unhealthyThreshold  = 5
@@ -168,7 +168,7 @@ module "appGw" {
     {
       name                = "http-probe-ilb"
       protocol            = "Http"
-      path                = "/"
+      path                = "/health"
       interval            = 30
       timeout             = 30
       unhealthyThreshold  = 5
@@ -179,7 +179,7 @@ module "appGw" {
     {
       name                = "https-probe-ilb"
       protocol            = "Https"
-      path                = "/"
+      path                = "/health"
       interval            = 30
       timeout             = 30
       unhealthyThreshold  = 5
