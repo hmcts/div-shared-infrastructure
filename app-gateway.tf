@@ -11,6 +11,8 @@ data "azurerm_key_vault_secret" "dn_cert" {
 locals {
   dn_suffix  = "${var.env != "prod" ? "-dn" : ""}"
   aos_suffix = "${var.env != "prod" ? "-aos" : ""}"
+
+  dn_internal_hostname = "div-dn-${var.env}.service.core-compute-${var.env}.internal"
 }
 
 module "appGw" {
@@ -160,7 +162,7 @@ module "appGw" {
       unhealthyThreshold                  = 5
       pickHostNameFromBackendHttpSettings = "false"
       backendHttpSettings                 = "backend-80-palo"
-      host                                = "${var.aos_external_hostname}"
+      host                                = "${var.dn_internal_hostname}"
       healthyStatusCodes                  = "200"
     },
     {
@@ -170,9 +172,8 @@ module "appGw" {
       interval                            = 30
       timeout                             = 30
       unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "false"
+      pickHostNameFromBackendHttpSettings = "true"
       backendHttpSettings                 = "backend-80-ilb"
-      host                                = "${var.aos_external_hostname}"
       healthyStatusCodes                  = "200"
     },
     {
@@ -182,9 +183,8 @@ module "appGw" {
       interval                            = 30
       timeout                             = 30
       unhealthyThreshold                  = 5
-      pickHostNameFromBackendHttpSettings = "false"
+      pickHostNameFromBackendHttpSettings = "true"
       backendHttpSettings                 = "backend-443-ilb"
-      host                                = "${var.aos_external_hostname}"
       healthyStatusCodes                  = "200"
     },
   ]
