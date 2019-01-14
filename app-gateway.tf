@@ -90,6 +90,8 @@ module "appGw" {
     },
   ]
 
+  use_authentication_cert = true
+
   backendHttpSettingsCollection = [
     {
       name                           = "backend-80-palo"
@@ -100,7 +102,7 @@ module "appGw" {
       probeEnabled                   = "True"
       probe                          = "http-probe-palo"
       PickHostNameFromBackendAddress = "False"
-      Host                           = "${var.dn_external_hostname}"
+      HostName                       = ""
     },
     {
       name                           = "backend-80-ilb"
@@ -111,7 +113,7 @@ module "appGw" {
       probeEnabled                   = "True"
       probe                          = "http-probe-ilb"
       PickHostNameFromBackendAddress = "True"
-      Host                           = "${var.aos_external_hostname}"
+      HostName                       = ""
     },
     {
       name                           = "backend-443-ilb"
@@ -122,7 +124,7 @@ module "appGw" {
       probeEnabled                   = "True"
       probe                          = "https-probe-ilb"
       PickHostNameFromBackendAddress = "True"
-      Host                           = "${var.aos_external_hostname}"
+      HostName                       = ""
     },
   ]
 
