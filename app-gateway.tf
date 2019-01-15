@@ -49,14 +49,6 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
-      name                    = "${var.product}-http-listener-ilb"
-      FrontendIPConfiguration = "appGatewayFrontendIP"
-      FrontendPort            = "frontendPort80"
-      Protocol                = "Http"
-      SslCertificate          = ""
-      hostName                = "${var.aos_external_hostname}"
-    },
-    {
       name                    = "${var.product}-https-listener-ilb"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
@@ -90,8 +82,6 @@ module "appGw" {
     },
   ]
 
-  use_authentication_cert = true
-
   backendHttpSettingsCollection = [
     {
       name                           = "backend-80-palo"
@@ -115,17 +105,6 @@ module "appGw" {
       PickHostNameFromBackendAddress = "True"
       HostName                       = ""
     },
-    {
-      name                           = "backend-443-ilb"
-      port                           = 443
-      Protocol                       = "Https"
-      AuthenticationCertificates     = "ilbCert"
-      CookieBasedAffinity            = "Disabled"
-      probeEnabled                   = "True"
-      probe                          = "https-probe-ilb"
-      PickHostNameFromBackendAddress = "True"
-      HostName                       = ""
-    },
   ]
 
   # Request routing rules
@@ -140,16 +119,9 @@ module "appGw" {
     {
       name                = "http-ilb"
       ruleType            = "Basic"
-      httpListener        = "${var.product}-http-listener-ilb"
-      backendAddressPool  = "${var.product}-${var.env}-backend-ilb"
-      backendHttpSettings = "backend-80-ilb"
-    },
-    {
-      name                = "https-ilb"
-      ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-ilb"
       backendAddressPool  = "${var.product}-${var.env}-backend-ilb"
-      backendHttpSettings = "backend-443-ilb"
+      backendHttpSettings = "backend-80-ilb"
     },
   ]
 
@@ -173,17 +145,6 @@ module "appGw" {
       timeout             = 30
       unhealthyThreshold  = 5
       backendHttpSettings = "backend-80-ilb"
-      healthyStatusCodes  = "200"
-      host                = "${local.rfe_internal_hostname}"
-    },
-    {
-      name                = "https-probe-ilb"
-      protocol            = "Https"
-      path                = "/health"
-      interval            = 30
-      timeout             = 30
-      unhealthyThreshold  = 5
-      backendHttpSettings = "backend-443-ilb"
       healthyStatusCodes  = "200"
       host                = "${local.rfe_internal_hostname}"
     },
