@@ -54,7 +54,7 @@ module "appGw" {
       FrontendPort            = "frontendPort80"
       Protocol                = "Http"
       SslCertificate          = ""
-      hostName                = "${var.aos_external_hostname}"
+      hostName                = "${var.dn_external_hostname}"
     },
     {
       name                    = "${var.product}-http-rfe-redirect-listener"
