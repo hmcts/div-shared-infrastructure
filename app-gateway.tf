@@ -49,6 +49,22 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
+      name                    = "${var.product}-http-ni-redirect-listener"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.aos_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-http-rfe-redirect-listener"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.aos_external_hostname}"
+    },
+    {
       name                    = "${var.product}-https-listener-ilb"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort443"
