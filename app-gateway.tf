@@ -118,7 +118,7 @@ module "appGw" {
       CookieBasedAffinity            = "Disabled"
       probeEnabled                   = "True"
       probe                          = "http-probe-ilb"
-      PickHostNameFromBackendAddress = "True"
+      PickHostNameFromBackendAddress = "False"
       HostName                       = ""
     },
   ]
