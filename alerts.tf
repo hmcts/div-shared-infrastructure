@@ -1,4 +1,4 @@
-module "div-${var.env}-alert" {
+module "div-bad-requests-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
   location = "${var.location}"
 
