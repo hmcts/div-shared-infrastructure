@@ -12,3 +12,8 @@ module "div-vault" {
 output "vaultName" {
   value = "${module.div-vault.key_vault_name}"
 }
+
+data "azurerm_key_vault" "div_key_vault" {
+  name                = "div-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+}
