@@ -4,7 +4,7 @@ module "div-bad-requests-alert" {
 
   app_insights_name = "div-${var.env}"
 
-  alert_name = "Bad requests (400 error code) in div-${var.env}"
+  alert_name = "bad-requests"
   alert_desc = "Found HTTP requests with 400 error response code (bad request) in div-${var.env}."
   app_insights_query = "requests | where resultCode == \"400\""
   custom_email_subject = "Alert: bad requests in div-${var.env}"
