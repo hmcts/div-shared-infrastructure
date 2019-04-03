@@ -18,3 +18,13 @@ data "azurerm_key_vault" "div_key_vault" {
   name                = "div-${var.env}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
 }
+
+data "azurerm_key_vault" "creator_access_policy" {
+  name                = "div-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+}
+
+data "azurerm_key_vault" "product_team_access_policy" {
+  name                = "div-${var.env}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+}
