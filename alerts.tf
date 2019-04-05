@@ -5,13 +5,13 @@ module "div-bad-requests-alert" {
   app_insights_name = "div-${var.env}"
 
   alert_name = "div-bad-requests"
-  alert_desc = "Found HTTP requests with 400 error response code (bad request) in div-${var.env}."
-  app_insights_query = "requests | where resultCode == \"400\""
+  alert_desc = "Found HTTP requests with 400 or 422 error response codes (bad request) in div-${var.env}."
+  app_insights_query = "requests | where resultCode in (\"400\", \"422\")"
   custom_email_subject = "Alert: bad requests in div-${var.env}"
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divroce Support"
+  action_group_name = "Divorce Support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 1
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
@@ -30,9 +30,9 @@ module "div-server-errors-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divroce Support"
+  action_group_name = "Divorce Support"
   trigger_threshold_operator = "GreaterThan"
-  trigger_threshold = 5
+  trigger_threshold = 20
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
 }
 
@@ -49,7 +49,7 @@ module "div-fe-performance-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divroce Support"
+  action_group_name = "Divorce Support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 5
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
