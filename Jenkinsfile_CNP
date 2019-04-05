@@ -19,7 +19,7 @@ def product = 'div'
 onMaster {
   sharedInfrastructurePipeline(product, environment.nonProdName, subscription.nonProdName)
   //sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
-  sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
+  //sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
 }
 /*
 onDemo {
