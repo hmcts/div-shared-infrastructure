@@ -11,7 +11,7 @@ module "div-bad-requests-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divorce Support"
+  action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 1
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
@@ -30,7 +30,7 @@ module "div-server-errors-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divorce Support"
+  action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 20
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
@@ -49,7 +49,7 @@ module "div-fe-performance-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "Divorce Support"
+  action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 5
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
