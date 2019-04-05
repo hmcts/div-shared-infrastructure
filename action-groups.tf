@@ -12,7 +12,7 @@ module "divorce-action-group" {
 
   resourcegroup_name     = "${azurerm_resource_group.rg.name}"
   action_group_name      = "div-support"
-  short_name             = "Div Support"
+  short_name             = "div-support"
   email_receiver_name    = "Divorce Support Mailing List"
   email_receiver_address = "${data.azurerm_key_vault_secret.divorce_support_email_secret.value}"
 }
