@@ -13,7 +13,7 @@ module "div-bad-requests-alert" {
   severity_level = "2"
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
-  trigger_threshold = 1
+  trigger_threshold = 0
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
   enabled = "${var.env == "prod"}"
 }
