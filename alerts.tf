@@ -6,7 +6,7 @@ module "div-bad-requests-alert" {
 
   alert_name = "div-bad-requests"
   alert_desc = "Found HTTP requests with 400 or 422 error response codes (bad request) in div-${var.env}."
-  app_insights_query = "requests | where resultCode in (\"400\", \"422\")" and url !contains "payment-update" and url !contains "paymentMade"
+  app_insights_query = "requests | where resultCode in (\"400\", \"422\") and url !contains \"payment-update\" and url !contains \"paymentMade\""
   custom_email_subject = "Alert: bad requests in div-${var.env}"
   frequency_in_minutes = 5
   time_window_in_minutes = 5
