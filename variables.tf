@@ -34,6 +34,11 @@ variable "jenkins_AAD_objectId" {
 }
 
 // ASP Specific Variables
+variable "asp_sku_size" {
+  type    = "string"
+  default = "I3"
+}
+  
 variable "asp_capacity" {
   type    = "string"
   default = "2"
