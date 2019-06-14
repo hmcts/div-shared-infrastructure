@@ -62,7 +62,7 @@ module "div-bulkcase-errors-alert" {
 
   app_insights_name = "div-${var.env}"
 
-  alert_name = "div-server-errors"
+  alert_name = "div-bulkcase-errors"
   alert_desc = "Bulk case update failed on in div-${var.env}."
   app_insights_query = "trace | message has 'Bulk case update failed' |  where severityLevel == 3"
   custom_email_subject = "Alert: Bulk case update errors in div-${var.env}"
