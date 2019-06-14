@@ -64,7 +64,7 @@ module "div-bulkcase-errors-alert" {
 
   alert_name = "div-server-errors"
   alert_desc = "Bulk case update failed on in div-${var.env}."
-  app_insights_query = "trace | where resultCode startswith \"5\"  | where name !contains \"/health\""
+  app_insights_query = "trace | message has 'Bulk case update failed' |  where severityLevel == 3"
   custom_email_subject = "Alert: Bulk case update errors in div-${var.env}"
   frequency_in_minutes = 5
   time_window_in_minutes = 5
