@@ -2,26 +2,8 @@
 //noinspection GroovyUnusedAssignment
 @Library("Infrastructure") _
 
-import uk.gov.hmcts.contino.Environment
-import uk.gov.hmcts.contino.Subscription
-
-Environment environment = new Environment(env)
-Subscription subscription = new Subscription(env)
-
-/*
-onMaster {
-  sharedInfrastructurePipeline('div', environment.nonProdName, 'nonprod')
-  //sharedInfrastructurePipeline('div', environment.prodName, 'prod')
-}*/
-
 def product = 'div'
 
-onMaster {
-  sharedInfrastructurePipeline(product, environment.nonProdName, subscription.nonProdName)
-  //sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
-  sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
+withInfraPipeline(product) {
+    enableSlackNotifications("#div-dev")
 }
-/*
-onDemo {
-  sharedInfrastructurePipeline(product, environment.demoName, 'nonprod')
-}*/
