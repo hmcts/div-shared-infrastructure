@@ -21,7 +21,7 @@ onMaster {
   //sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
   sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
 }
-/*
+
 onDemo {
-  sharedInfrastructurePipeline(product, environment.demoName, 'nonprod')
-}*/
+  sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
+}
