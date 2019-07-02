@@ -8,18 +8,11 @@ import uk.gov.hmcts.contino.Subscription
 Environment environment = new Environment(env)
 Subscription subscription = new Subscription(env)
 
-/*
-onMaster {
-  sharedInfrastructurePipeline('div', environment.nonProdName, 'nonprod')
-  //sharedInfrastructurePipeline('div', environment.prodName, 'prod')
-}*/
-
 def product = 'div'
 
 onMaster {
   sharedInfrastructurePipeline(product, environment.nonProdName, subscription.nonProdName)
-  //sharedInfrastructurePipeline(product, environment.demoName, subscription.nonProdName)
-  sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
+  // sharedInfrastructurePipeline(product, environment.prodName, subscription.prodName)
 }
 
 onDemo {

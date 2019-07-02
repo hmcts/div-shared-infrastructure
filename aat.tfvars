@@ -8,6 +8,10 @@ dn_internal_hostname = "div-dn-aat.service.core-compute-aat.internal"
 
 dn_external_cert_name = "star-aat"
 
+da_external_hostname = "decree-absolute.apply-divorce.aat.platform.hmcts.net"
+
+da_external_cert_name = "star-aat"
+
 external_cert_vault_uri = "https://infra-vault-nonprod.vault.azure.net/"
 
 asp_sku_size = "I3"
