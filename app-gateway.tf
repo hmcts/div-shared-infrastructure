@@ -51,7 +51,7 @@ module "appGw" {
       data     = "${data.azurerm_key_vault_secret.dn_cert.value}"
       password = ""
     },
-      {
+    {
       name     = "${var.da_external_cert_name}${local.da_suffix}"
       data     = "${data.azurerm_key_vault_secret.da_cert.value}"
       password = ""
@@ -92,7 +92,7 @@ module "appGw" {
       SslCertificate          = "${var.dn_external_cert_name}${local.dn_suffix}"
       hostName                = "${var.dn_external_hostname}"
     },
-        {
+    {
       name                    = "${var.product}-http-da-redirect-listener"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort80"
