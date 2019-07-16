@@ -85,14 +85,6 @@ module "appGw" {
       hostName                = "${var.aos_external_hostname}"
     },
     {
-      name                    = "${var.product}-https-listener-palo"
-      FrontendIPConfiguration = "appGatewayFrontendIP"
-      FrontendPort            = "frontendPort443"
-      Protocol                = "Https"
-      SslCertificate          = "${var.dn_external_cert_name}${local.dn_suffix}"
-      hostName                = "${var.dn_external_hostname}"
-    },
-    {
       name                    = "${var.product}-http-da-redirect-listener"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort80"
@@ -111,10 +103,6 @@ module "appGw" {
   ]
 
   backendAddressPools = [
-    {
-      name             = "${var.product}-${var.env}-backend-palo"
-      backendAddresses = "${module.palo_alto.untrusted_ips_fqdn}"
-    },
     {
       name = "${var.product}-${var.env}-backend-ilb"
 
@@ -136,17 +124,6 @@ module "appGw" {
   ]
 
   backendHttpSettingsCollection = [
-    {
-      name                           = "backend-80-palo"
-      port                           = 80
-      Protocol                       = "Http"
-      AuthenticationCertificates     = ""
-      CookieBasedAffinity            = "Disabled"
-      probeEnabled                   = "True"
-      probe                          = "http-probe-palo"
-      PickHostNameFromBackendAddress = "False"
-      HostName                       = ""
-    },
     {
       name                           = "backend-80-ilb"
       port                           = 80
@@ -174,13 +151,6 @@ module "appGw" {
   # Request routing rules
   requestRoutingRules = [
     {
-      name                = "http-palo"
-      ruleType            = "Basic"
-      httpListener        = "${var.product}-https-listener-palo"
-      backendAddressPool  = "${var.product}-${var.env}-backend-palo"
-      backendHttpSettings = "backend-80-palo"
-    },
-    {
       name                = "http-ilb"
       ruleType            = "Basic"
       httpListener        = "${var.product}-https-listener-ilb"
@@ -197,17 +167,6 @@ module "appGw" {
   ]
 
   probes = [
-    {
-      name                = "http-probe-palo"
-      protocol            = "Http"
-      path                = "/health"
-      interval            = 30
-      timeout             = 30
-      unhealthyThreshold  = 5
-      backendHttpSettings = "backend-80-palo"
-      healthyStatusCodes  = "200"
-      host                = "${local.dn_internal_hostname}"
-    },
     {
       name                = "http-probe-ilb"
       protocol            = "Http"
