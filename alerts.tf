@@ -55,3 +55,22 @@ module "div-fe-performance-alert" {
   trigger_threshold = 5
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
 }
+
+module "div-bulkcase-errors-alert" {
+  source = "git@github.com:hmcts/cnp-module-metric-alert"
+  location = "${var.location}"
+
+  app_insights_name = "div-${var.env}"
+
+  alert_name = "div-bulkcase-errors"
+  alert_desc = "Bulk case update failed on in div-${var.env}."
+  app_insights_query = "traces | where message has 'Bulk case update failed' |  where severityLevel == 3"
+  custom_email_subject = "Alert: Bulk case update errors in div-${var.env}"
+  frequency_in_minutes = 5
+  time_window_in_minutes = 5
+  severity_level = "2"
+  action_group_name = "div-support"
+  trigger_threshold_operator = "GreaterThan"
+  trigger_threshold = 0
+  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+}

@@ -8,12 +8,19 @@ data "azurerm_key_vault_secret" "dn_cert" {
   vault_uri = "${var.external_cert_vault_uri}"
 }
 
+data "azurerm_key_vault_secret" "da_cert" {
+  name      = "${var.da_external_cert_name}"
+  vault_uri = "${var.external_cert_vault_uri}"
+}
+
 locals {
   dn_suffix  = "${var.env != "prod" ? "-dn" : ""}"
   aos_suffix = "${var.env != "prod" ? "-aos" : ""}"
+  da_suffix = "${var.env != "prod" ? "-da" : ""}"
 
   dn_internal_hostname  = "${var.product}-dn-${var.env}.service.core-compute-${var.env}.internal"
   rfe_internal_hostname = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
+  da_internal_hostname = "${var.product}-da-${var.env}.service.core-compute-${var.env}.internal"
 }
 
 module "appGw" {
@@ -44,6 +51,11 @@ module "appGw" {
       data     = "${data.azurerm_key_vault_secret.dn_cert.value}"
       password = ""
     },
+    {
+      name     = "${var.da_external_cert_name}${local.da_suffix}"
+      data     = "${data.azurerm_key_vault_secret.da_cert.value}"
+      password = ""
+    }
   ]
 
   # Http Listeners
@@ -80,6 +92,22 @@ module "appGw" {
       SslCertificate          = "${var.dn_external_cert_name}${local.dn_suffix}"
       hostName                = "${var.dn_external_hostname}"
     },
+    {
+      name                    = "${var.product}-http-da-redirect-listener"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.da_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-https-da-listener-ilb"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort443"
+      Protocol                = "Https"
+      SslCertificate          = "${var.da_external_cert_name}${local.da_suffix}"
+      hostName                = "${var.da_external_hostname}"
+    }
   ]
 
   backendAddressPools = [
@@ -93,9 +121,18 @@ module "appGw" {
       backendAddresses = [
         {
           ipAddress = "${local.rfe_internal_hostname}"
-        },
+        }
       ]
     },
+    {
+      name = "${var.product}-${var.env}-da-backend-ilb"
+
+      backendAddresses = [
+        {
+          ipAddress = "${local.da_internal_hostname}"
+        }
+      ]
+    }
   ]
 
   backendHttpSettingsCollection = [
@@ -121,6 +158,17 @@ module "appGw" {
       PickHostNameFromBackendAddress = "False"
       HostName                       = ""
     },
+    {
+      name                           = "backend-80-da-ilb"
+      port                           = 80
+      Protocol                       = "Http"
+      AuthenticationCertificates     = ""
+      CookieBasedAffinity            = "Disabled"
+      probeEnabled                   = "True"
+      probe                          = "http-probe-da-ilb"
+      PickHostNameFromBackendAddress = "False"
+      HostName                       = ""
+    },
   ]
 
   # Request routing rules
@@ -139,6 +187,13 @@ module "appGw" {
       backendAddressPool  = "${var.product}-${var.env}-backend-ilb"
       backendHttpSettings = "backend-80-ilb"
     },
+    {
+      name                = "http-da-ilb"
+      ruleType            = "Basic"
+      httpListener        = "${var.product}-https-da-listener-ilb"
+      backendAddressPool  = "${var.product}-${var.env}-da-backend-ilb"
+      backendHttpSettings = "backend-80-da-ilb"
+    }
   ]
 
   probes = [
@@ -164,5 +219,16 @@ module "appGw" {
       healthyStatusCodes  = "200"
       host                = "${local.rfe_internal_hostname}"
     },
+    {
+      name                = "http-probe-da-ilb"
+      protocol            = "Http"
+      path                = "/health"
+      interval            = 30
+      timeout             = 30
+      unhealthyThreshold  = 5
+      backendHttpSettings = "backend-80-da-ilb"
+      healthyStatusCodes  = "200"
+      host                = "${local.da_internal_hostname}"
+    }
   ]
 }
