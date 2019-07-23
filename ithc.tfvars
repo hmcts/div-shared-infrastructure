@@ -12,7 +12,7 @@ dn_internal_hostname = "div-dn-ithc.service.core-compute-ithc.internal"
 
 dn_external_cert_name = "wildcard-ithc-platform-hmcts-net"
 
-da_external_hostname = "decree-absolute.apply-divorce.ithc.platform.hmcts.net"
+da_external_hostname = "decree-absolute-apply-divorce.ithc.platform.hmcts.net"
 
 da_external_cert_name = "wildcard-ithc-platform-hmcts-net"
 
