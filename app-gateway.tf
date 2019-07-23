@@ -1,3 +1,8 @@
+data "azurerm_key_vault_secret" "pfe_cert" {
+  name      = "${var.pfe_external_cert_name}"
+  vault_uri = "${var.external_cert_vault_uri}"
+}
+
 data "azurerm_key_vault_secret" "aos_cert" {
   name      = "${var.aos_external_cert_name}"
   vault_uri = "${var.external_cert_vault_uri}"
@@ -14,10 +19,12 @@ data "azurerm_key_vault_secret" "da_cert" {
 }
 
 locals {
+  pfe_suffix  = "${var.env != "prod" ? "-pfe" : ""}"
   dn_suffix  = "${var.env != "prod" ? "-dn" : ""}"
   aos_suffix = "${var.env != "prod" ? "-aos" : ""}"
   da_suffix = "${var.env != "prod" ? "-da" : ""}"
 
+  pfe_internal_hostname  = "${var.product}-pfe-${var.env}.service.core-compute-${var.env}.internal"
   dn_internal_hostname  = "${var.product}-dn-${var.env}.service.core-compute-${var.env}.internal"
   rfe_internal_hostname = "${var.product}-rfe-${var.env}.service.core-compute-${var.env}.internal"
   da_internal_hostname = "${var.product}-da-${var.env}.service.core-compute-${var.env}.internal"
@@ -42,6 +49,11 @@ module "appGw" {
 
   sslCertificates = [
     {
+      name     = "${var.pfe_external_cert_name}${local.pfe_suffix}"
+      data     = "${data.azurerm_key_vault_secret.pfe_cert.value}"
+      password = ""
+    },
+    {
       name     = "${var.aos_external_cert_name}${local.aos_suffix}"
       data     = "${data.azurerm_key_vault_secret.aos_cert.value}"
       password = ""
@@ -61,12 +73,20 @@ module "appGw" {
   # Http Listeners
   httpListeners = [
     {
-      name                    = "${var.product}-http-ni-redirect-listener"
+      name                    = "${var.product}-http-pfe-redirect-listener"
       FrontendIPConfiguration = "appGatewayFrontendIP"
       FrontendPort            = "frontendPort80"
       Protocol                = "Http"
       SslCertificate          = ""
-      hostName                = "${var.dn_external_hostname}"
+      hostName                = "${var.pfe_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-https-pfe-listener-palo"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort443"
+      Protocol                = "Https"
+      SslCertificate          = "${var.pfe_external_cert_name}${local.pfe_suffix}"
+      hostName                = "${var.pfe_external_hostname}"
     },
     {
       name                    = "${var.product}-http-rfe-redirect-listener"
@@ -83,6 +103,14 @@ module "appGw" {
       Protocol                = "Https"
       SslCertificate          = "${var.aos_external_cert_name}${local.aos_suffix}"
       hostName                = "${var.aos_external_hostname}"
+    },
+    {
+      name                    = "${var.product}-http-ni-redirect-listener"
+      FrontendIPConfiguration = "appGatewayFrontendIP"
+      FrontendPort            = "frontendPort80"
+      Protocol                = "Http"
+      SslCertificate          = ""
+      hostName                = "${var.dn_external_hostname}"
     },
     {
       name                    = "${var.product}-https-listener-palo"
@@ -197,6 +225,17 @@ module "appGw" {
   ]
 
   probes = [
+    {
+      name                = "http-probe-pfe-palo"
+      protocol            = "Http"
+      path                = "/health"
+      interval            = 30
+      timeout             = 30
+      unhealthyThreshold  = 5
+      backendHttpSettings = "backend-80-palo"
+      healthyStatusCodes  = "200"
+      host                = "${local.pfe_internal_hostname}"
+    },
     {
       name                = "http-probe-palo"
       protocol            = "Http"

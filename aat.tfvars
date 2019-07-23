@@ -1,3 +1,7 @@
+pfe_external_hostname = "apply-divorce.aat.platform.hmcts.net"
+
+pfe_external_cert_name = "star-aat"
+
 aos_external_hostname = "respond-divorce.aat.platform.hmcts.net"
 
 aos_external_cert_name = "star-aat"
