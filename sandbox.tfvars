@@ -1,3 +1,7 @@
+pfe_external_hostname = "div-pfe.sandbox.platform.hmcts.net"
+
+pfe_external_cert_name = "STAR-sandbox-platform-hmcts-net"
+
 aos_external_hostname = "div-rfe.sandbox.platform.hmcts.net"
 
 aos_external_cert_name = "STAR-sandbox-platform-hmcts-net"

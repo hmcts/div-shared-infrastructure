@@ -1,3 +1,7 @@
+pfe_external_hostname = "www.apply-divorce.service.gov.uk"
+
+pfe_external_cert_name = "apply-divorce-service-gov-uk"
+
 aos_external_hostname = "www.respond-divorce.service.gov.uk"
 
 aos_external_cert_name = "respond-divorce-service-gov-uk"

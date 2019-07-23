@@ -1,3 +1,7 @@
+pfe_external_hostname = "apply-divorce.ithc.platform.hmcts.net"
+
+pfe_external_cert_name = "wildcard-ithc-platform-hmcts-net"
+
 aos_external_hostname = "respond-divorce.ithc.platform.hmcts.net"
 
 aos_external_cert_name = "wildcard-ithc-platform-hmcts-net"
