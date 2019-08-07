@@ -26,7 +26,7 @@ module "div-server-errors-alert" {
 
   alert_name = "div-server-errors"
   alert_desc = "Found HTTP requests with 500 error response code (bad request) in div-${var.env}."
-  app_insights_query = "requests | where resultCode startswith '5'  | where name !contains '/health' | where datetime_diff('hour', timestamp, startofday(timestamp)) !between (2 .. 5)"
+  app_insights_query = "requests | where resultCode startswith '5'  | where name !contains '/health' | where datetime_diff('hour', timestamp, startofday(timestamp)) !between (2 .. 5) or url !contains '-aat'"
   custom_email_subject = "Alert: server errors in div-${var.env}"
   frequency_in_minutes = 5
   time_window_in_minutes = 5
