@@ -1,6 +1,5 @@
 #!groovy
 //noinspection GroovyUnusedAssignment
-import uk.gov.hmcts.contino.Subscription
 @Library("Infrastructure") _
 
 //noinspection GroovyAssignabilityCheck
@@ -10,6 +9,5 @@ properties([
 		])
 ])
 
-Subscription subscription = new Subscription(env)
 
-sharedInfrastructurePipeline('div', params.ENVIRONMENT, subscription.nonProdName)
+withInfraPipeline('div')
