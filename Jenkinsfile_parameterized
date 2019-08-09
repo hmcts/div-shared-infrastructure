@@ -12,4 +12,4 @@ properties([
 
 Subscription subscription = new Subscription(env)
 
-withInfraPipeline('div', params.ENVIRONMENT, subscription.nonProdName)
+withPipeline('div', params.ENVIRONMENT, subscription.nonProdName)
