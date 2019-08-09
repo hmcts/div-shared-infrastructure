@@ -10,4 +10,6 @@ properties([
 ])
 
 
-withInfraPipeline('div')
+withInfraPipeline('div') {
+	
+}
