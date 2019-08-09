@@ -11,5 +11,5 @@ properties([
 
 
 withInfraPipeline('div') {
-	
+	enableSlackNotifications('#div-dev')
 }
