@@ -14,4 +14,4 @@ da_external_cert_name = "wildcard-ithc-platform-hmcts-net"
 
 external_cert_vault_uri = "https://infra-vault-qa.vault.azure.net/"
 
-asp_sku_size = "I3"
+managed_identity_object_id = "92a7ba88-571e-40ce-9321-d4c932ee6b44"
