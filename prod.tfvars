@@ -13,3 +13,5 @@ da_external_hostname = "www.decree-absolute.apply-divorce.service.gov.uk"
 da_external_cert_name = "decree-absolute-apply-divorce-service-gov-uk"
 
 external_cert_vault_uri = "https://infra-vault-prod.vault.azure.net/"
+
+managed_identity_object_id = "4cd98a2d-a6bb-4d65-8cd7-8ceec5955a81"

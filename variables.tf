@@ -38,7 +38,7 @@ variable "asp_sku_size" {
   type    = "string"
   default = "I2"
 }
-  
+
 variable "asp_capacity" {
   type    = "string"
   default = "2"
@@ -65,6 +65,10 @@ variable "destroy_me" {
 
 variable "common_tags" {
   type = "map"
+}
+
+variable "managed_identity_object_id" {
+  default = ""
 }
 
 variable "dn_external_cert_name" {}
