@@ -5,8 +5,5 @@
 def product = 'div'
 
 withInfraPipeline(product) {
-}
-
-onMaster {
-    enableSlackNotifications("#div-dev")
+    enableSlackNotifications('#div-dev')
 }
