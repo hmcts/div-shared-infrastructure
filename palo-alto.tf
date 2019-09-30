@@ -5,7 +5,7 @@ locals {
 }
 
 module "palo_alto" {
-  source       = "git@github.com:hmcts/cnp-module-palo-alto.git"
+  source       = "git@github.com:hmcts/cnp-module-palo-alto?ref=master"
   subscription = "${var.subscription}"
   env          = "${var.env}"
   product      = "${var.product}"
