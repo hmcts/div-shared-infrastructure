@@ -81,8 +81,8 @@ module "div-data-extraction-alert" {
 
   app_insights_name = "div-${var.env}"
 
-  alert_name = "Data extraction to Family Man has not happened yet"
-  alert_desc = "Logs aren't indicating that e-mails with data extraction were sent in div-${var.env}."
+  alert_name = "div-data-extraction-alert"
+  alert_desc = "Logs indicate that daily e-mails with data extraction were not sent in div-${var.env}."
   app_insights_query = "traces | where message startswith 'Sent extracted data to' and tostring(customDimensions['LoggerName']) has 'dataextraction'"
   custom_email_subject = "Alert: Data extraction does not seem to be working in div-${var.env}"
   frequency_in_minutes = 120
@@ -92,5 +92,5 @@ module "div-data-extraction-alert" {
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 3
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
-  enabled = "${var.env == "prod"}"
+//  enabled = "${var.env == "prod"}"
 }
