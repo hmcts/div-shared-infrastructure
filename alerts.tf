@@ -92,5 +92,5 @@ module "div-data-extraction-alert" {
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 3
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
-//  enabled = "${var.env == "prod"}"
+  enabled = "${var.env == "prod"}"
 }
