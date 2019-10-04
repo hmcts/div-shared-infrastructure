@@ -74,3 +74,23 @@ module "div-bulkcase-errors-alert" {
   trigger_threshold = 0
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
 }
+
+module "div-data-extraction-alert" {
+  source = "git@github.com:hmcts/cnp-module-metric-alert"
+  location = "${var.location}"
+
+  app_insights_name = "div-${var.env}"
+
+  alert_name = "div-data-extraction-alert"
+  alert_desc = "Logs indicate that daily e-mails with data extraction were not sent in div-${var.env}."
+  app_insights_query = "traces | where message startswith 'Sent extracted data to' and tostring(customDimensions['LoggerName']) has 'dataextraction'"
+  custom_email_subject = "Alert: Data extraction does not seem to be working in div-${var.env}"
+  frequency_in_minutes = 300
+  time_window_in_minutes = 1440
+  severity_level = "2"
+  action_group_name = "div-support"
+  trigger_threshold_operator = "LessThan"
+  trigger_threshold = 3
+  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  enabled = "${var.env == "prod" || var.env == "aat"}"
+}
