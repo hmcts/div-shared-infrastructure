@@ -85,7 +85,7 @@ module "div-data-extraction-alert" {
   alert_desc = "Logs indicate that daily e-mails with data extraction were not sent in div-${var.env}."
   app_insights_query = "traces | where message startswith 'Sent extracted data to' and tostring(customDimensions['LoggerName']) has 'dataextraction'"
   custom_email_subject = "Alert: Data extraction does not seem to be working in div-${var.env}"
-  frequency_in_minutes = 120
+  frequency_in_minutes = 300
   time_window_in_minutes = 1440
   severity_level = "2"
   action_group_name = "div-support"
