@@ -14,6 +14,6 @@ da_external_cert_name = "star-demo"
 
 external_cert_vault_uri = "https://infra-vault-nonprod.vault.azure.net/"
 
-asp_sku_size = "I3"
+asp_sku_size = "I2"
 
 managed_identity_object_id = "9cb0f42f-72f2-4cfa-b7db-6c1853f00371"
