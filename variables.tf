@@ -33,16 +33,6 @@ variable "jenkins_AAD_objectId" {
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
-// ASP Specific Variables
-variable "asp_sku_size" {
-  type    = "string"
-  default = "I2"
-}
-
-variable "asp_capacity" {
-  type    = "string"
-  default = "2"
-}
 
 // TAG SPECIFIC VARIABLES
 variable "team_name" {
@@ -70,20 +60,6 @@ variable "common_tags" {
 variable "managed_identity_object_id" {
   default = ""
 }
-
-variable "dn_external_cert_name" {}
-
-variable "dn_external_hostname" {}
-
-variable "external_cert_vault_uri" {}
-
-variable "aos_external_cert_name" {}
-
-variable "aos_external_hostname" {}
-
-variable "da_external_cert_name" {}
-
-variable "da_external_hostname" {}
 
 variable "ilbIp" {}
 
