@@ -114,3 +114,23 @@ module "div-bulk-print-config-errors-alert" {
   resourcegroup_name = "${azurerm_resource_group.rg.name}"
   enabled = "${var.env == "prod" || var.env == "aat"}"
 }
+
+module "div-aos-overdue-alert" {
+  source = "git@github.com:hmcts/cnp-module-metric-alert"
+  location = "${var.location}"
+
+  app_insights_name = "div-${var.env}"
+
+  alert_name = "div-aos-overdue-alert"
+  alert_desc = "Logs indicate that daily job responsible for moving eligible cases to 'AOS Overdue' state did not run in div-${var.env}."
+  app_insights_query = "traces | where message == 'Running AosOverdueJob job'"
+  custom_email_subject = "Alert: AOS Overdue job does not seem to be working in div-${var.env}"
+  frequency_in_minutes = 300
+  time_window_in_minutes = 1440
+  severity_level = "2"
+  action_group_name = "div-support"
+  trigger_threshold_operator = "LessThan"
+  trigger_threshold = 1
+  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  enabled = "${var.env == "prod" || var.env == "aat"}"
+}
