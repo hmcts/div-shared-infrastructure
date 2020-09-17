@@ -1,27 +1,21 @@
 variable "product" {
-  type    = "string"
   default = "div"
 }
 
 variable "location" {
-  type    = "string"
   default = "UK South"
 }
 
 // as of now, UK South is unavailable for Application Insights
 variable "appinsights_location" {
-  type        = "string"
   default     = "West Europe"
   description = "Location for Application Insights"
 }
 
-variable "env" {
-  type = "string"
-}
+variable "env" {}
 
 variable "application_type" {
-  type        = "string"
-  default     = "Web"
+  default     = "web"
   description = "Type of Application Insights (Web/Other)"
 }
 
@@ -36,25 +30,22 @@ variable "jenkins_AAD_objectId" {
 
 // TAG SPECIFIC VARIABLES
 variable "team_name" {
-  type        = "string"
   description = "The name of your team"
   default     = "Divorce"
 }
 
 variable "team_contact" {
-  type        = "string"
   description = "The name of your Slack channel people can use to contact your team about your infrastructure"
   default     = "#div-dev"
 }
 
 variable "destroy_me" {
-  type        = "string"
   description = "Here be dragons! In the future if this is set to Yes then automation will delete this resource on a schedule. Please set to No unless you know what you are doing"
   default     = "No"
 }
 
 variable "common_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "managed_identity_object_id" {

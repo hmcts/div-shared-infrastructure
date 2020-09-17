@@ -1,5 +1,5 @@
 provider "azurerm" {
-  version = "1.22.1"
+  features {}
 }
 
 locals {
@@ -13,7 +13,7 @@ locals {
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.product}-${var.env}"
-  location = "${var.location}"
+  location = var.location
 
-  tags = "${local.tags}"
+  tags = local.tags
 }
