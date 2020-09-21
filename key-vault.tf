@@ -7,7 +7,7 @@ module "div-vault" {
   object_id               = "${var.jenkins_AAD_objectId}"
   resource_group_name     = "${azurerm_resource_group.rg.name}"
 
-  product_group_object_id = "3450807e-5248-4053-944f-9df59dda50b9"
+  product_group_object_id = "${var.product_group_object_id}"
   common_tags             = "${var.common_tags}"
   managed_identity_object_id = "${var.managed_identity_object_id}"
 }
