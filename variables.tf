@@ -61,6 +61,10 @@ variable "managed_identity_object_id" {
   default = ""
 }
 
+variable "product_group_object_id" {
+    default = "3450807e-5248-4053-944f-9df59dda50b9"
+}
+
 variable "ilbIp" {}
 
 variable "subscription" {}
