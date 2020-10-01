@@ -1,6 +1,6 @@
 module "div-bad-requests-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -14,13 +14,13 @@ module "div-bad-requests-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod"}"
 }
 
 module "div-server-errors-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -34,12 +34,12 @@ module "div-server-errors-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 20
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
 }
 
 module "div-fe-performance-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -53,12 +53,12 @@ module "div-fe-performance-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 5
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
 }
 
 module "div-bulkcase-errors-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -72,12 +72,12 @@ module "div-bulkcase-errors-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
 }
 
 module "div-data-extraction-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -91,13 +91,13 @@ module "div-data-extraction-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 3
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
 }
 
 module "div-bulk-print-config-errors-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -111,13 +111,13 @@ module "div-bulk-print-config-errors-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
 }
 
 module "div-aos-overdue-alert" {
   source = "git@github.com:hmcts/cnp-module-metric-alert"
-  location = "${var.location}"
+  location = var.location
 
   app_insights_name = "div-${var.env}"
 
@@ -131,6 +131,6 @@ module "div-aos-overdue-alert" {
   action_group_name = "div-support"
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 1
-  resourcegroup_name = "${azurerm_resource_group.rg.name}"
+  resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
 }
