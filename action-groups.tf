@@ -2,7 +2,7 @@
 
 data "azurerm_key_vault_secret" "divorce_support_email_secret" {
   name      = "divorce-support-email"
-  vault_uri = "${data.azurerm_key_vault.div_key_vault.vault_uri}"
+  key_vault_id = "${module.div-vault.key_vault_id}"
 }
 
 module "divorce-action-group" {

@@ -1,5 +1,6 @@
 terraform {
   backend "azurerm" {}
+
 }
 
 data "azurerm_subnet" "subnet_a" {
