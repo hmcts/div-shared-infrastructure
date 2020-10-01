@@ -15,7 +15,7 @@ module "div-bad-requests-alert" {
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
-  enabled = "${var.env == "prod"}"
+  enabled = var.env == "prod"
 }
 
 module "div-server-errors-alert" {
