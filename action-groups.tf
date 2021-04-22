@@ -5,7 +5,7 @@ data "azurerm_key_vault_secret" "divorce_support_email2_secret" {
   key_vault_id = module.div-vault.key_vault_id
 }
 
-data "azurerm_key_vault_secret" "divorce_support_email2_secret" {
+data "azurerm_key_vault_secret" "divorce_support_email_secret" {
   name      = "divorce-support-email"
   key_vault_id = module.div-vault.key_vault_id
 }
