@@ -31,7 +31,7 @@ module "div-server-errors-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 20
   resourcegroup_name = azurerm_resource_group.rg.name
