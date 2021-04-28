@@ -30,6 +30,6 @@ module "divorce-action-group" {
   resourcegroup_name     = azurerm_resource_group.rg.name
   action_group_name      = "div-support2"
   short_name             = "div-support2"
-  email_receiver_name    = "Divorce Support Mailing List2"
-  email_receiver_address = data.azurerm_key_vault_secret.divorce_support_email2_secret.value
+  email_receiver_name    = "Divorce Support Mailing List"
+  email_receiver_address = data.azurerm_key_vault_secret.divorce_support_email_secret.value
 }
