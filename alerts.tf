@@ -11,7 +11,7 @@ module "div-bad-requests-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
@@ -50,7 +50,7 @@ module "div-fe-performance-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 5
   resourcegroup_name = azurerm_resource_group.rg.name
@@ -69,7 +69,7 @@ module "div-bulkcase-errors-alert" {
   frequency_in_minutes = 5
   time_window_in_minutes = 5
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
@@ -88,7 +88,7 @@ module "div-data-extraction-alert" {
   frequency_in_minutes = 300
   time_window_in_minutes = 1440
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 3
   resourcegroup_name = azurerm_resource_group.rg.name
@@ -108,7 +108,7 @@ module "div-bulk-print-config-errors-alert" {
   frequency_in_minutes = 720
   time_window_in_minutes = 1440
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
@@ -128,7 +128,7 @@ module "div-aos-overdue-alert" {
   frequency_in_minutes = 300
   time_window_in_minutes = 1440
   severity_level = "2"
-  action_group_name = "div-support"
+  action_group_name = "div-support2"
   trigger_threshold_operator = "LessThan"
   trigger_threshold = 1
   resourcegroup_name = azurerm_resource_group.rg.name
