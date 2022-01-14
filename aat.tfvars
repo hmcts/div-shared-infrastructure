@@ -1,1 +1,1 @@
-managed_identity_object_id = "df18e9f9-5f50-46d8-b75f-34b856fcef24"
+managed_identity_object_id = "f46c7099-0831-4b4a-bbbb-c8b3c96582cd"
