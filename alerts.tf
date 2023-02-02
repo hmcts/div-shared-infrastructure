@@ -53,6 +53,7 @@ module "div-fe-performance-alert" {
   action_group_name = "div-support2"
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 5
+  tags = var.common_tags
   resourcegroup_name = azurerm_resource_group.rg.name
 }
 
