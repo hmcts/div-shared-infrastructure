@@ -14,6 +14,8 @@ resource "azurerm_application_insights" "appinsights" {
   }
 }
 
-output "appInsightsInstrumentationKey" {
-  value = azurerm_application_insights.appinsights.instrumentation_key
+resource "azurerm_key_vault_secret" "AZURE_APPINSIGHTS_KEY" {
+  name         = "AppInsightsInstrumentationKey"
+  value        = azurerm_application_insights.appinsights.instrumentation_key
+  key_vault_id = module.div-vault.key_vault_id
 }
