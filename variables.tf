@@ -48,6 +48,10 @@ variable "common_tags" {
   type = map(string)
 }
 
+variable "deployment_namespace" {
+  default = ""
+}
+
 variable "managed_identity_object_id" {
   default = ""
 }
