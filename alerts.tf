@@ -16,7 +16,7 @@ module "div-bad-requests-alert" {
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
   enabled = var.env == "prod"
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
 
 module "div-server-errors-alert" {
@@ -36,7 +36,7 @@ module "div-server-errors-alert" {
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 20
   resourcegroup_name = azurerm_resource_group.rg.name
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
 
 module "div-fe-performance-alert" {
@@ -76,7 +76,7 @@ module "div-bulkcase-errors-alert" {
   trigger_threshold_operator = "GreaterThan"
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
 
 module "div-data-extraction-alert" {
@@ -97,7 +97,7 @@ module "div-data-extraction-alert" {
   trigger_threshold = 3
   resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
 
 module "div-bulk-print-config-errors-alert" {
@@ -118,7 +118,7 @@ module "div-bulk-print-config-errors-alert" {
   trigger_threshold = 0
   resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
 
 module "div-aos-overdue-alert" {
@@ -139,5 +139,5 @@ module "div-aos-overdue-alert" {
   trigger_threshold = 1
   resourcegroup_name = azurerm_resource_group.rg.name
   enabled = "${var.env == "prod" || var.env == "aat"}"
-  tags = var.common_tags
+  common_tags = var.common_tags
 }
