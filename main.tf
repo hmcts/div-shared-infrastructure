@@ -11,7 +11,7 @@ resource "azurerm_resource_group" "rg" {
 
 module "redis-cache" {
   source      = "git@github.com:hmcts/cnp-module-redis?ref=master"
-  product     = "${var.product}-redis"
+  product     = "${var.product}"
   location    = var.location
   env         = var.env
   private_endpoint_enabled = true
