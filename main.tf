@@ -9,7 +9,7 @@ resource "azurerm_resource_group" "rg" {
   tags = var.common_tags
 }
 
-module "redis-cache" {
+module "redis" {
   source      = "git@github.com:hmcts/cnp-module-redis?ref=master"
   product     = var.product
   location    = var.location
