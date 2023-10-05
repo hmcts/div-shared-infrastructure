@@ -8,7 +8,6 @@ module "div-vault" {
   resource_group_name        = azurerm_resource_group.rg.name
   product_group_name         = "dcd_divorce"
   common_tags                = var.common_tags
-  managed_identity_object_id = var.managed_identity_object_id
   create_managed_identity    = true
 }
 
