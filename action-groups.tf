@@ -1,12 +1,12 @@
 // Divorce Alerts Action Groups
 
 data "azurerm_key_vault_secret" "divorce_support_email2_secret" {
-  name      = "divorce-support-email2"
+  name         = "divorce-support-email2"
   key_vault_id = module.div-vault.key_vault_id
 }
 
 data "azurerm_key_vault_secret" "divorce_support_email_secret" {
-  name      = "divorce-support-email"
+  name         = "divorce-support-email"
   key_vault_id = module.div-vault.key_vault_id
 }
 
@@ -22,7 +22,7 @@ module "divorce-action-group" {
   email_receiver_address = data.azurerm_key_vault_secret.divorce_support_email_secret.value
 }
 
-  module "divorce-action-group2" {
+module "divorce-action-group2" {
   source   = "git@github.com:hmcts/cnp-module-action-group"
   location = "global"
   env      = var.env
