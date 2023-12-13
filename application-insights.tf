@@ -10,12 +10,14 @@ module "application_insights" {
 
   common_tags = var.common_tags
 }
-
 moved {
   from = azurerm_application_insights.appinsights
   to   = module.application_insights.azurerm_application_insights.this
 }
-
+output "appInsightsInstrumentationKey" {
+  value     = module.application_insights.instrumentation_key
+  sensitive = true
+}
 
 resource "azurerm_key_vault_secret" "app_insights_connection_string" {
   name         = "app-insights-connection-string"
