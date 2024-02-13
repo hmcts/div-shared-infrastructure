@@ -1,6 +1,6 @@
 
 module "application_insights" {
-  source = "git@github.com:hmcts/terraform-module-application-insights?ref=alert"
+  source = "git@github.com:hmcts/terraform-module-application-insights?ref=main"
 
   env                 = var.env
   product             = var.product
