@@ -14,6 +14,11 @@ moved {
   from = azurerm_application_insights.appinsights
   to   = module.application_insights.azurerm_application_insights.this
 }
+
+moved {
+  from = module.application_insights.azurerm_monitor_activity_log_alert.main
+  to   = module.application_insights.azurerm_monitor_activity_log_alert.main[0]
+}
 output "appInsightsInstrumentationKey" {
   value     = module.application_insights.instrumentation_key
   sensitive = true
